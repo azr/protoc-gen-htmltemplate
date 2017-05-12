@@ -1,0 +1,14 @@
+syntax = "proto3";
+
+package example;
+
+message Storage {
+  enum Kind {
+    Pocket = 0;
+    Backpack = 1;
+    Cart = 2;
+  };
+  Kind   kind = 1;
+  uint32 capacity = 2;
+  bytes  stuff = 3;
+}

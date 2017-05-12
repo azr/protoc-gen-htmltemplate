@@ -1,0 +1,51 @@
+<html>
+
+<head>
+    <title>{{ protomustache }}</title>
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ"
+        crossorigin="anonymous">
+    <style>
+        body {
+            padding-top: 1.5rem;
+            padding-bottom: 1.5rem;
+        }
+        /* Customize container */
+        @media (min-width: 48em) {
+        .container {
+            max-width: 46rem;
+        }
+        }
+        .container-narrow > hr {
+           margin: 2rem 0;
+        }
+
+        .jumbotron {
+            text-align: center;
+            border-bottom: .05rem solid #e5e5e5;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="jumbotron">
+            <h1 class="display-3">Protomustache</h1>
+            <p class="lead"> Generate html mustache forms from .proto files</p>
+        </div>
+
+        <div id="content">
+            Example of a generated Profile form :
+            <form id="user-form"></form>
+        </div>
+    </div>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/mustache.js/2.3.0/mustache.js"></script>
+    <script src="user.pb.mustache.js"></script>
+    <script src="storage.pb.mustache.js"></script>
+    <script>
+        var userFormRendered = Mustache.render(templates.Profile.form, {ID: 42}, templates.Profile.formIncludes() );
+        $("#user-form").html(userFormRendered);
+    </script>
+</body>
+
+</html>

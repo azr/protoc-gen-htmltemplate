@@ -1,0 +1,27 @@
+syntax = "proto3";
+
+package example;
+
+import "storage.proto";
+
+//Profile represents a person
+message Profile {
+  //ID identifies a user !
+  int64    ID = 1;
+  string   FirstName = 2;
+  string   LastName = 3;
+  string   FacebookID = 4;
+  float    Latitue = 5;
+  double   Longitude = 6;
+  int32    number = 7;
+  int64    Int64 = 8;
+  uint32   Uint32 = 9;
+  uint64   Uint64 = 10;
+  sint32   Sint32 = 11;
+  sint64   Sint64 = 12;
+  fixed32  Fixed32 = 13;
+  fixed64  Fixed64 = 14;
+  sfixed32 Sfixed32 = 15;
+  sfixed64 Sfixed64 = 16;
+  Storage  leftPocket = 17;
+}
