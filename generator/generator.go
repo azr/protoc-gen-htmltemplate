@@ -67,7 +67,6 @@ func (g *Generator) GenerateFile(fdesciptor *google_protobuf.FileDescriptorProto
 // DO NOT EDIT!
 
 var templates = templates || {};
-
 `, *fdesciptor.Name)
 	for _, msgType := range fdesciptor.MessageType {
 		fmt.Fprintf(out, "\ntemplates.%s = {\n", *msgType.Name)
@@ -107,10 +106,10 @@ var templates = templates || {};
 			case descriptor.FieldDescriptorProto_TYPE_ENUM:
 				fmt.Fprintf(out, `<select class="form-control" id="%s" name="%[1]s">`, *field.JsonName)
 				fmt.Fprintf(out, `</select>`)
-			case descriptor.FieldDescriptorProto_TYPE_BYTES:
-				//just ignore byte arrays
+			case descriptor.FieldDescriptorProto_TYPE_BYTES,
+				descriptor.FieldDescriptorProto_TYPE_GROUP:
+				//just ignore those
 			default:
-				// 	descriptor.FieldDescriptorProto_TYPE_GROUP,
 				g.Fail("unknown type ", field.GetName())
 			}
 			// fmt.Fprintf(out, `<small id="%sHelp" class="form-text text-muted">%s</small>`, *field.JsonName, ?Comment)

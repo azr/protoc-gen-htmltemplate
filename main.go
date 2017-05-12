@@ -1,4 +1,4 @@
-// Html admin support for Protocol Buffers - Google's data interchange format
+// Html support for Protocol Buffers - Google's data interchange format
 //
 // Copyright 2017 Adrien Delorme.  All rights reserved.
 //
@@ -29,7 +29,7 @@
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 // protoc-gen-htmltemplate is a plugin for the Google protocol buffer compiler to generate
-// html admin template files. Run it by building this program and putting it in your path with
+// html template files. Run it by building this program and putting it in your path with
 // the name
 // 	protoc-gen-htmltemplate
 // That word 'htmltemplate' at the end becomes part of the option string set for the

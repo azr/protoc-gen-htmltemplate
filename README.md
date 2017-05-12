@@ -14,8 +14,10 @@ If it's the case, then installation went fine.
 
 ## Usage
 
+```
 protoc  protos/*.proto \
 	--htmltemplate_out=${ADMIN_DIR}/templates/
+```
 
 ## To use them now ?
 
@@ -24,9 +26,17 @@ Check the example dir !
 This line particularly:
 
 ```
-var userFormRendered = Mustache.render(templates.Profile.form, {ID: 42}, templates.Profile.formIncludes() );
-        $("#user-form").html(userFormRendered);
+var userFormRendered = Mustache.render( templates.Profile.form, {ID: 42}, templates.Profile.formIncludes() );
+$("#user-form").html(userFormRendered);
 ```
+
+## Limitations
+
+The golang generation code is quick and dirty and the generated js is pretty simple.
+
+* There can be only one level of nesting for a type
+* bytes and groups are ignored
+* only tested with proto3
 
 ## Why this project ?
 
@@ -67,3 +77,7 @@ in any language you like: go, java, c++, c, etc.
 ## Can I edit the generated files afterwards ?
 
 Yeah but next time you run the command the files will be replaced.
+
+## Links
+
+[golang/protobuf](https://github.com/golang/protobuf/)
