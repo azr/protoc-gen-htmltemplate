@@ -1,14 +1,23 @@
 # Generate HTML templates from protobuf
 
-Somewhat cool ! Right ?
+Somewhat cool ! Right ? Checkout the examples: [https://azr.github.io/protoc-gen-htmltemplate/](https://azr.github.io/protoc-gen-htmltemplate/)
 
 ## What is this doing ?
 
 Every time you change a type: the html code for displaying it is generated according to fields.
 
-* For form it generates <input> fields surrounded by bootstrap input tag
-* For table headers, <th> are generated.
-* For table content, <td> are generated.
+* For form it generates `<input>` fields surrounded by bootstrap form divs. Profile.ID example:
+
+```
+<div class="form-group Profile">
+  <label for="ID">ID</label>
+  <input class="form-control ID" id="ID" name="ID" type=number step=1 value="{{ID}}" >
+</div>
+```
+* For table headers, `<th>FieldName</th>` are generated.
+* For table content, `<td>{{FieldName}}</td>` are generated.
+
+Check the .js files in the example dir to see the generated code.
 
 ## Installation
 
@@ -25,7 +34,7 @@ protoc  protos/*.proto \
 
 ## To use them now ?
 
-Check the example dir !
+Checkout the [example](https://azr.github.io/protoc-gen-htmltemplate/) !
 
 This line particularly:
 
@@ -44,7 +53,7 @@ The golang generation code is quick and dirty and the generated js is pretty sim
 
 ## Why this project ?
 
-I define my a lot of things using gRPC.
+I define a lot of things using gRPC.
 I don't like doing nor maintaining html/javascript/css & I need an admin console that is
 mostly made of replaceable tools.
 So I figured generating the most I could from the actual protobuf would make
@@ -59,13 +68,18 @@ has to be hype resistant and generate boilerplate code so it
 never gets in the way, or the least possible.
 
 
-Searched "best template engine" and got mustache.github.io
-Searched "best css framework" and got getbootstrap.com 
+-> Searched "best template engine" and got mustache.github.io
 
-So the code generated is mustache templates files with bootstrap 4 structure and class names.
-Every entity has it's own class name taken from entity name itself too.
+-> Searched "best css framework" and got getbootstrap.com
 
-Want to add or fix something ? PRs are welcome !
+So the code generated is mustache templates files
+Forms have bootstrap 4 structure and class names.
+Every entity has it's own class name taken from entity/field name itself too.
+
+
+## Want to contribute ?
+
+PRs are welcome !
 
 ## Why is it done in golang ?
 
@@ -76,7 +90,7 @@ This library allows me to just decide how things are dumped and not care about p
 
 In short: from a .proto file defining your entity and API calls, 
 generate the code that will do the communication
-in any language you like: go, java, c++, c, etc.
+in any language you like: js, go, c++, c#, java, python, [etc.](https://github.com/google/protobuf/blob/master/docs/third_party.md)
 
 ## Can I edit the generated files afterwards ?
 
