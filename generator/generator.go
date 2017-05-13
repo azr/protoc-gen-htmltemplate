@@ -82,7 +82,7 @@ var templates = templates || {};
 			switch *field.Type {
 			case descriptor.FieldDescriptorProto_TYPE_DOUBLE,
 				descriptor.FieldDescriptorProto_TYPE_FLOAT:
-				fmt.Fprintf(out, `<input class="form-control %s" id="%[1]s" name="%[1]s" type=number step=any >`, *field.JsonName)
+				fmt.Fprintf(out, `<input class="form-control %s" id="%[1]s" name="%[1]s" type=number step=any value="{{%[1]s}}" >`, *field.JsonName)
 			case descriptor.FieldDescriptorProto_TYPE_INT64,
 				descriptor.FieldDescriptorProto_TYPE_SFIXED32,
 				descriptor.FieldDescriptorProto_TYPE_SFIXED64,
@@ -91,14 +91,14 @@ var templates = templates || {};
 				descriptor.FieldDescriptorProto_TYPE_INT32,
 				descriptor.FieldDescriptorProto_TYPE_FIXED64,
 				descriptor.FieldDescriptorProto_TYPE_FIXED32:
-				fmt.Fprintf(out, `<input class="form-control %s" id="%[1]s" name="%[1]s" type=number step=1 >`, *field.JsonName)
+				fmt.Fprintf(out, `<input class="form-control %s" id="%[1]s" name="%[1]s" type=number step=1 value="{{%[1]s}}" >`, *field.JsonName)
 			case descriptor.FieldDescriptorProto_TYPE_UINT64,
 				descriptor.FieldDescriptorProto_TYPE_UINT32:
-				fmt.Fprintf(out, `<input class="form-control %s" id="%[1]s" name="%[1]s" type=number step=1 min=0 >`, *field.JsonName)
+				fmt.Fprintf(out, `<input class="form-control %s" id="%[1]s" name="%[1]s" type=number step=1 min=0 value="{{%[1]s}}" >`, *field.JsonName)
 			case descriptor.FieldDescriptorProto_TYPE_BOOL:
-				fmt.Fprintf(out, `<input class="form-control %s" id="%[1]s" name="%[1]s" type="checkbox" >`, *field.JsonName)
+				fmt.Fprintf(out, `<input class="form-control %s" id="%[1]s" name="%[1]s" type="checkbox" value="{{%[1]s}}" >`, *field.JsonName)
 			case descriptor.FieldDescriptorProto_TYPE_STRING:
-				fmt.Fprintf(out, `<input class="form-control %s" id="%[1]s" name="%[1]s" type="text" >`, *field.JsonName)
+				fmt.Fprintf(out, `<input class="form-control %s" id="%[1]s" name="%[1]s" type="text" value="{{%[1]s}}" >`, *field.JsonName)
 			case descriptor.FieldDescriptorProto_TYPE_MESSAGE:
 				n := getTypeNameName(field.GetTypeName())
 				fmt.Fprintf(out, `{{> %s}}`, n)
