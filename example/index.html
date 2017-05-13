@@ -10,18 +10,24 @@
             padding-bottom: 1.5rem;
         }
         /* Customize container */
+
         @media (min-width: 48em) {
-        .container {
-            max-width: 46rem;
+            .container {
+                max-width: 46rem;
+            }
         }
-        }
-        .container-narrow > hr {
-           margin: 2rem 0;
+
+        .container-narrow>hr {
+            margin: 2rem 0;
         }
 
         .jumbotron {
             text-align: center;
             border-bottom: .05rem solid #e5e5e5;
+        }
+
+        table .Longitude,table .Latitude,table .FacebookID,table .Int64,table .Uint32,table .Uint64,table .Sint32,table .Sint64,table .Fixed32,table .Fixed64,table .Sfixed32,table .Sfixed64 {
+            display: none
         }
     </style>
 </head>
@@ -33,9 +39,27 @@
             <p class="lead"> Generate html mustache forms from .proto files</p>
         </div>
 
+        <p class=""> GitHub page: <a href="https://github.com/mustache/mustache.github.com">https://github.com/mustache/mustache.github.com</a> </p>
+
         <div id="content">
             Example of a generated Profile form :
             <form id="user-form"></form>
+        </div>
+
+
+        <div id="content">
+            Example of a generated table view :
+            <div>
+                <table class="table table-inverse">
+                    <thead>
+                        <tr id="user-table-header">
+
+                        </tr>
+                    </thead>
+                    <tbody id="user-table-content">
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
@@ -43,8 +67,21 @@
     <script src="user.pb.mustache.js"></script>
     <script src="storage.pb.mustache.js"></script>
     <script>
-        var userFormRendered = Mustache.render(templates.Profile.form, {ID: 42}, templates.Profile.formIncludes() );
+        var userFormRendered = Mustache.render(templates.Profile.form, { ID: 42 }, templates.Profile.formIncludes());
         $("#user-form").html(userFormRendered);
+
+        var userTableHeaderRendered = Mustache.render(templates.Profile.tableHeader, {}, templates.Profile.tableHeaderIncludes());
+        $("#user-table-header").html(userTableHeaderRendered);
+
+        var userTableRowRendered = Mustache.render(
+            '{{#.}} <tr> ' + templates.Profile.tableRow + '</tr> {{/.}} ',
+            [
+                { ID: 42 },
+                { ID: 43 },
+                { ID: 44 },
+                { ID: 45 },
+            ], templates.Profile.tableRowIncludes());
+        $("#user-table-content").html(userTableRowRendered);
     </script>
 </body>
 

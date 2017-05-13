@@ -72,9 +72,9 @@ var templates = templates || {};
 		fmt.Fprintf(out, "\ntemplates.%s = {\n", *msgType.Name)
 
 		// render form view
-		fmt.Fprintf(out, "  form : '")
+		fmt.Fprintf(out, "  form: '")
 
-		var formIncludes []string
+		var includes []string
 		for _, field := range msgType.Field {
 			fmt.Fprintf(out, `<div class="form-group">`)
 			fmt.Fprintf(out, `<label for="%s">%s</label>`, *field.JsonName, *field.Name)
@@ -82,7 +82,7 @@ var templates = templates || {};
 			switch *field.Type {
 			case descriptor.FieldDescriptorProto_TYPE_DOUBLE,
 				descriptor.FieldDescriptorProto_TYPE_FLOAT:
-				fmt.Fprintf(out, `<input class="form-control" id="%s" name="%[1]s" type=number step=any >`, *field.JsonName)
+				fmt.Fprintf(out, `<input class="form-control %s" id="%[1]s" name="%[1]s" type=number step=any >`, *field.JsonName)
 			case descriptor.FieldDescriptorProto_TYPE_INT64,
 				descriptor.FieldDescriptorProto_TYPE_SFIXED32,
 				descriptor.FieldDescriptorProto_TYPE_SFIXED64,
@@ -91,20 +91,20 @@ var templates = templates || {};
 				descriptor.FieldDescriptorProto_TYPE_INT32,
 				descriptor.FieldDescriptorProto_TYPE_FIXED64,
 				descriptor.FieldDescriptorProto_TYPE_FIXED32:
-				fmt.Fprintf(out, `<input class="form-control" id="%s" name="%[1]s" type=number step=1 >`, *field.JsonName)
+				fmt.Fprintf(out, `<input class="form-control %s" id="%[1]s" name="%[1]s" type=number step=1 >`, *field.JsonName)
 			case descriptor.FieldDescriptorProto_TYPE_UINT64,
 				descriptor.FieldDescriptorProto_TYPE_UINT32:
-				fmt.Fprintf(out, `<input class="form-control" id="%s" name="%[1]s" type=number step=1 min=0 >`, *field.JsonName)
+				fmt.Fprintf(out, `<input class="form-control %s" id="%[1]s" name="%[1]s" type=number step=1 min=0 >`, *field.JsonName)
 			case descriptor.FieldDescriptorProto_TYPE_BOOL:
-				fmt.Fprintf(out, `<input class="form-control" id="%s" name="%[1]s" type="checkbox" >`, *field.JsonName)
+				fmt.Fprintf(out, `<input class="form-control %s" id="%[1]s" name="%[1]s" type="checkbox" >`, *field.JsonName)
 			case descriptor.FieldDescriptorProto_TYPE_STRING:
-				fmt.Fprintf(out, `<input class="form-control" id="%s" name="%[1]s" type="text" >`, *field.JsonName)
+				fmt.Fprintf(out, `<input class="form-control %s" id="%[1]s" name="%[1]s" type="text" >`, *field.JsonName)
 			case descriptor.FieldDescriptorProto_TYPE_MESSAGE:
 				n := getTypeNameName(field.GetTypeName())
 				fmt.Fprintf(out, `{{> %s}}`, n)
-				formIncludes = append(formIncludes, n)
+				includes = append(includes, n)
 			case descriptor.FieldDescriptorProto_TYPE_ENUM:
-				fmt.Fprintf(out, `<select class="form-control" id="%s" name="%[1]s">`, *field.JsonName)
+				fmt.Fprintf(out, `<select class="form-control %s" id="%[1]s" name="%[1]s">`, *field.JsonName)
 				fmt.Fprintf(out, `</select>`)
 			case descriptor.FieldDescriptorProto_TYPE_BYTES,
 				descriptor.FieldDescriptorProto_TYPE_GROUP:
@@ -112,20 +112,108 @@ var templates = templates || {};
 			default:
 				g.Fail("unknown type ", field.GetName())
 			}
-			// fmt.Fprintf(out, `<small id="%sHelp" class="form-text text-muted">%s</small>`, *field.JsonName, ?Comment)
+			// fmt.Fprintf(out, `<small class="%sHelp" class="form-text text-muted">%s</small>`, *field.JsonName, ?Comment)
 			fmt.Fprintf(out, `</div>`)
 		}
 		fmt.Fprintf(out, "',\n")
+
 		fmt.Fprintf(out, "  formIncludes: function() { return {")
-		for i, incl := range formIncludes {
+		for i, incl := range includes {
 			if i > 0 {
-				fmt.Fprintf(out, `,`)
+				fmt.Fprintf(out, `, `)
 			}
 			fmt.Fprintf(out, "%s: templates.%[1]s.form", incl)
 		}
+		fmt.Fprintf(out, "} },\n")
+
+		// render form view
+		fmt.Fprintf(out, "  tableHeader: '")
+
+		for _, field := range msgType.Field {
+
+			switch *field.Type {
+			case descriptor.FieldDescriptorProto_TYPE_DOUBLE,
+				descriptor.FieldDescriptorProto_TYPE_FLOAT,
+				descriptor.FieldDescriptorProto_TYPE_INT64,
+				descriptor.FieldDescriptorProto_TYPE_SFIXED32,
+				descriptor.FieldDescriptorProto_TYPE_SFIXED64,
+				descriptor.FieldDescriptorProto_TYPE_SINT32,
+				descriptor.FieldDescriptorProto_TYPE_SINT64,
+				descriptor.FieldDescriptorProto_TYPE_INT32,
+				descriptor.FieldDescriptorProto_TYPE_FIXED64,
+				descriptor.FieldDescriptorProto_TYPE_FIXED32,
+				descriptor.FieldDescriptorProto_TYPE_UINT64,
+				descriptor.FieldDescriptorProto_TYPE_UINT32,
+				descriptor.FieldDescriptorProto_TYPE_BOOL,
+				descriptor.FieldDescriptorProto_TYPE_STRING,
+				descriptor.FieldDescriptorProto_TYPE_ENUM:
+				fmt.Fprintf(out, `<th class="%s">%[1]s</th>`, *field.Name)
+			case descriptor.FieldDescriptorProto_TYPE_MESSAGE:
+				n := getTypeNameName(field.GetTypeName())
+				fmt.Fprintf(out, `{{> %s}}`, n)
+			case descriptor.FieldDescriptorProto_TYPE_BYTES,
+				descriptor.FieldDescriptorProto_TYPE_GROUP:
+				//just ignore those
+			default:
+				g.Fail("unknown type ", field.GetName())
+			}
+		}
+
+		fmt.Fprintf(out, "',\n")
+		fmt.Fprintf(out, "  tableHeaderIncludes: function() { return {")
+		for i, incl := range includes {
+			if i > 0 {
+				fmt.Fprintf(out, `, `)
+			}
+			fmt.Fprintf(out, "%s: templates.%[1]s.tableHeader", incl)
+		}
+		fmt.Fprintf(out, "} },\n")
+
+		// render form view
+		fmt.Fprintf(out, "  tableRow: '")
+
+		for _, field := range msgType.Field {
+
+			switch *field.Type {
+			case descriptor.FieldDescriptorProto_TYPE_DOUBLE,
+				descriptor.FieldDescriptorProto_TYPE_FLOAT,
+				descriptor.FieldDescriptorProto_TYPE_INT64,
+				descriptor.FieldDescriptorProto_TYPE_SFIXED32,
+				descriptor.FieldDescriptorProto_TYPE_SFIXED64,
+				descriptor.FieldDescriptorProto_TYPE_SINT32,
+				descriptor.FieldDescriptorProto_TYPE_SINT64,
+				descriptor.FieldDescriptorProto_TYPE_INT32,
+				descriptor.FieldDescriptorProto_TYPE_FIXED64,
+				descriptor.FieldDescriptorProto_TYPE_FIXED32,
+				descriptor.FieldDescriptorProto_TYPE_UINT64,
+				descriptor.FieldDescriptorProto_TYPE_UINT32,
+				descriptor.FieldDescriptorProto_TYPE_BOOL,
+				descriptor.FieldDescriptorProto_TYPE_STRING,
+				descriptor.FieldDescriptorProto_TYPE_ENUM:
+				fmt.Fprintf(out, `<td class="%s">{{%[1]s}}</td>`, *field.Name)
+			case descriptor.FieldDescriptorProto_TYPE_MESSAGE:
+				n := getTypeNameName(field.GetTypeName())
+				fmt.Fprintf(out, `{{> %s}}`, n)
+			case descriptor.FieldDescriptorProto_TYPE_BYTES,
+				descriptor.FieldDescriptorProto_TYPE_GROUP:
+				//just ignore those
+			default:
+				g.Fail("unknown type ", field.GetName())
+			}
+		}
+
+		fmt.Fprintf(out, "',\n")
+		fmt.Fprintf(out, "  tableRowIncludes: function() { return {")
+		for i, incl := range includes {
+			if i > 0 {
+				fmt.Fprintf(out, `, `)
+			}
+			fmt.Fprintf(out, "%s: templates.%[1]s.tableRow", incl)
+		}
+		fmt.Fprintf(out, "} }\n")
 
 		//end of file
-		fmt.Fprintf(out, "} }, \n};\n")
+		fmt.Fprintf(out, "};\n")
 	}
 	res.Content = proto.String(out.String())
 	return res

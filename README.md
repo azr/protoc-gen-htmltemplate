@@ -6,6 +6,10 @@ Somewhat cool ! Right ?
 
 Every time you change a type: the html code for displaying it is generated according to fields.
 
+* For form it generates <input> fields surrounded by bootstrap input tag
+* For table headers, <th> are generated.
+* For table content, <td> are generated.
+
 ## Installation
 
 run `go get github.com/azr/protoc-gen-htmltemplate`

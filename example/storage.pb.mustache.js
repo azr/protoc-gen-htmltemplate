@@ -4,8 +4,11 @@
 
 var templates = templates || {};
 
-
 templates.Storage = {
-  form : '<div class="form-group"><label for="kind">kind</label><select class="form-control" id="kind" name="kind"></select></div><div class="form-group"><label for="capacity">capacity</label><input class="form-control" id="capacity" name="capacity" type=number step=1 min=0 ></div><div class="form-group"><label for="stuff">stuff</label></div>',
-  formIncludes: function() { return {} }, 
+  form: '<div class="form-group"><label for="kind">kind</label><select class="form-control kind" id="kind" name="kind"></select></div><div class="form-group"><label for="capacity">capacity</label><input class="form-control capacity" id="capacity" name="capacity" type=number step=1 min=0 ></div><div class="form-group"><label for="stuff">stuff</label></div>',
+  formIncludes: function() { return {} },
+  tableHeader: '<th class="kind">kind</th><th class="capacity">capacity</th>',
+  tableHeaderIncludes: function() { return {} },
+  tableRow: '<td class="kind">{{kind}}</td><td class="capacity">{{capacity}}</td>',
+  tableRowIncludes: function() { return {} }
 };

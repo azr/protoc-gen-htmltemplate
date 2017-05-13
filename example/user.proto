@@ -11,7 +11,7 @@ message Profile {
   string   FirstName = 2;
   string   LastName = 3;
   string   FacebookID = 4;
-  float    Latitue = 5;
+  float    Latitude = 5;
   double   Longitude = 6;
   int32    number = 7;
   int64    Int64 = 8;
