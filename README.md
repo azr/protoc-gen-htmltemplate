@@ -1,4 +1,4 @@
-# Generate your entites' HTML templates from protobuf
+# Generate HTML templates from protobuf
 
 Somewhat cool ! Right ?
 
